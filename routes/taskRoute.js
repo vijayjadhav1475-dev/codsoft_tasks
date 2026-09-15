@@ -185,4 +185,35 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+// PATCH - Update task status
+router.patch("/:id/status", (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["pending", "completed"].includes(status)) {
+        return res.status(400).json({
+            error: "Status must be pending or completed"
+        });
+    }
+
+    const sql = "UPDATE tasks SET status = ? WHERE id = ?";
+
+    db.query(sql, [status, id], (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                error: "Failed to update task status"
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                error: "Task not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Task status updated successfully"
+        });
+    });
+});
 module.exports = router;
