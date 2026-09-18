@@ -1,171 +1,320 @@
-# Task 1 - Student Record Management API
+# Task 3 - To-Do List Backend
+
+A RESTful To-Do List Backend API built using Node.js, Express.js, and MySQL.
 
 ## Technologies Used
 
-- Node.js
-- Express.js
-- MySQL
-- Postman
+* Node.js
+* Express.js
+* MySQL
+* mysql2
+* CORS
+* dotenv
 
-## Features
+## Task 3 Features
 
-- Add new student
-- Retrieve all students
-- Retrieve student by ID
-- Update student
-- Delete student
-- Search students
-- Filter students
-- Sort students
-- Pagination
-- Input validation
-- Proper HTTP status codes
-- MySQL database integration
+* Create new tasks
+* Retrieve all tasks
+* Retrieve a task by ID
+* Update tasks
+* Delete tasks
+* Mark tasks as completed or pending
+* Search tasks
+* Filter tasks by completion status
+* Sort tasks
+* Pagination
+* Request data validation
+* Due dates
+* Priority levels
+* Task categories
+* Appropriate HTTP status codes
+* MySQL database storage
+* Controller and route based project structure
 
 ## API Base URL
 
-http://localhost:5000/api/students
+```text
+http://localhost:5002/api/tasks
+```
 
 ## API Endpoints
 
-### 1. Get All Students
+### 1. Get All Tasks
 
-GET
+**GET**
 
-/api/students
-
-Example:
-
-GET http://localhost:5000/api/students
-
-
-### 2. Get Student by ID
-
-GET
-
-/api/students/:id
+```text
+/api/tasks
+```
 
 Example:
 
-GET http://localhost:5000/api/students/1
+```text
+GET http://localhost:5002/api/tasks
+```
 
+Supports search, filtering, sorting, and pagination.
 
-### 3. Add New Student
+### 2. Get Task by ID
 
-POST
+**GET**
 
-/api/students
-
-Body → raw → JSON
+```text
+/api/tasks/:id
+```
 
 Example:
 
+```text
+GET http://localhost:5002/api/tasks/1
+```
+
+### 3. Create New Task
+
+**POST**
+
+```text
+/api/tasks
+```
+
+Example request body:
+
+```json
 {
-  "name": "Rahul",
-  "email": "rahul@gmail.com",
-  "age": 22
+  "title": "Learn Node.js",
+  "description": "Complete backend and API practice",
+  "status": "pending",
+  "due_date": "2026-09-19",
+  "priority": "high",
+  "category": "Learning"
 }
+```
 
+### 4. Update Task
 
-### 4. Update Student
+**PUT**
 
-PUT
-
-/api/students/:id
+```text
+/api/tasks/:id
+```
 
 Example:
 
-PUT http://localhost:5000/api/students/1
+```text
+PUT http://localhost:5002/api/tasks/1
+```
 
-Body → raw → JSON
+Example request body:
 
+```json
 {
-  "name": "Rahul Patil",
-  "email": "rahul@gmail.com",
-  "age": 23
+  "title": "Learn Node.js Advanced",
+  "description": "Complete backend and API practice",
+  "status": "completed",
+  "due_date": "2026-09-19",
+  "priority": "high",
+  "category": "Learning"
 }
+```
 
+### 5. Delete Task
 
-### 5. Delete Student
+**DELETE**
 
-DELETE
-
-/api/students/:id
-
-Example:
-
-DELETE http://localhost:5000/api/students/1
-
-
-### 6. Search Students
-
-GET
-
-/api/students?search=Rahul
+```text
+/api/tasks/:id
+```
 
 Example:
 
-GET http://localhost:5000/api/students?search=Rahul
+```text
+DELETE http://localhost:5002/api/tasks/1
+```
 
+### 6. Update Task Status
 
-### 7. Filter Students
+**PATCH**
 
-GET
+```text
+/api/tasks/:id/status
+```
 
-/api/students?age=22
+Example:
 
+```text
+PATCH http://localhost:5002/api/tasks/1/status
+```
 
-### 8. Sorting
+Request body:
 
-GET
+```json
+{
+  "status": "completed"
+}
+```
 
-/api/students?sortBy=name&order=ASC
+Allowed status values:
 
+```text
+pending
+completed
+```
 
-### 9. Pagination
+## Search and Filter
 
-GET
+### Search Tasks
 
-/api/students?page=1&limit=10
+```text
+GET /api/tasks?search=Node
+```
+
+Searches task title, description, and category.
+
+### Filter by Status
+
+Completed tasks:
+
+```text
+GET /api/tasks?status=completed
+```
+
+Pending tasks:
+
+```text
+GET /api/tasks?status=pending
+```
+
+## Sorting
+
+Tasks can be sorted using:
+
+```text
+sortBy
+```
+
+Allowed sort fields:
+
+```text
+id
+title
+status
+priority
+due_date
+created_at
+```
+
+Example:
+
+```text
+GET /api/tasks?sortBy=priority&order=ASC
+```
+
+Allowed order values:
+
+```text
+ASC
+DESC
+```
+
+## Pagination
+
+Example:
+
+```text
+GET /api/tasks?page=1&limit=10
+```
+
+* `page` = page number
+* `limit` = number of tasks per page
 
 ## HTTP Status Codes
 
-200 - Success
-201 - Student created successfully
-400 - Invalid request / validation error
-404 - Student not found
-500 - Server error
+| Status Code | Meaning                   |
+| ----------- | ------------------------- |
+| 200         | Request successful        |
+| 201         | Task created successfully |
+| 400         | Invalid request data      |
+| 404         | Task not found            |
+| 500         | Server/database error     |
 
 ## Database
 
-Database: codsoft_task1
+Database name:
 
-Tables:
+```text
+codsoft_todo
+```
 
-- students
-- courses
-- enrollments
+Main table:
+
+```text
+tasks
+```
+
+The `tasks` table stores:
+
+* id
+* title
+* description
+* status
+* due_date
+* priority
+* category
+* created_at
 
 ## Project Structure
 
-student-record-api/
+```text
+CODSOFT Task 3 To-Do Backend
 │
-├── config/
-├── controllers/
-├── routes/
-├── node_modules/
-├── .env
-├── server.js
-├── student_database.sql
+├── config
+│   └── db.js
+│
+├── controllers
+│   └── taskController.js
+│
+├── routes
+│   └── taskRoute.js
+│
+├── .gitignore
 ├── package.json
+├── package-lock.json
+├── server.js
 └── README.md
+```
+
+## How to Run
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the server:
+
+```bash
+node server.js
+```
+
+Server:
+
+```text
+http://localhost:5002
+```
+
+API:
+
+```text
+http://localhost:5002/api/tasks
+```
 
 ## API Testing
 
-All APIs were tested using Postman.
+The APIs can be tested using Postman.
 
-## CodSoft Internship
+## Internship Task
 
-Task 1 - Student Record Management API
+**CodSoft Backend Development Internship**
 
-Backend Development Internship
+**Task 3: To-Do List Backend**
