@@ -1,94 +1,154 @@
-# Task 2 - Contact Management System
+# Task 1 - Student Record Management API
 
 ## Technologies Used
+
 - Node.js
 - Express.js
 - MySQL
 - Postman
 
 ## Features
-- Add new contact
-- Retrieve all contacts
-- Retrieve contact by ID
-- Update contact
-- Delete contact
-- Search contacts by name, email or phone
-- Sort contacts
+
+- Add new student
+- Retrieve all students
+- Retrieve student by ID
+- Update student
+- Delete student
+- Search students
+- Filter students
+- Sort students
 - Pagination
 - Input validation
-- Duplicate email/phone prevention
 - Proper HTTP status codes
+- MySQL database integration
 
 ## API Base URL
 
-http://localhost:5001/api/contacts
+http://localhost:5000/api/students
 
 ## API Endpoints
 
-### 1. Get All Contacts
-GET
-/api/contacts
+### 1. Get All Students
 
-### 2. Get Contact by ID
 GET
-/api/contacts/:id
+
+/api/students
 
 Example:
-GET http://localhost:5001/api/contacts/1
 
-### 3. Add Contact
+GET http://localhost:5000/api/students
+
+
+### 2. Get Student by ID
+
+GET
+
+/api/students/:id
+
+Example:
+
+GET http://localhost:5000/api/students/1
+
+
+### 3. Add New Student
+
 POST
-/api/contacts
 
-Example JSON:
-{
-  "name": "Vijay",
-  "email": "vijay@gmail.com",
-  "phone": "9876543210"
-}
+/api/students
 
-### 4. Update Contact
-PUT
-/api/contacts/:id
+Body → raw → JSON
 
 Example:
+
 {
-  "name": "Vijay Jadhav",
-  "email": "vijay@gmail.com",
-  "phone": "9876543210"
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "age": 22
 }
 
-### 5. Delete Contact
+
+### 4. Update Student
+
+PUT
+
+/api/students/:id
+
+Example:
+
+PUT http://localhost:5000/api/students/1
+
+Body → raw → JSON
+
+{
+  "name": "Rahul Patil",
+  "email": "rahul@gmail.com",
+  "age": 23
+}
+
+
+### 5. Delete Student
+
 DELETE
-/api/contacts/:id
 
-### 6. Search Contacts
+/api/students/:id
 
-GET
-/api/contacts?search=Vijay
+Example:
 
-### 7. Sorting
+DELETE http://localhost:5000/api/students/1
 
-GET
-/api/contacts?sortBy=name&order=ASC
 
-### 8. Pagination
+### 6. Search Students
 
 GET
-/api/contacts?page=1&limit=10
+
+/api/students?search=Rahul
+
+Example:
+
+GET http://localhost:5000/api/students?search=Rahul
+
+
+### 7. Filter Students
+
+GET
+
+/api/students?age=22
+
+
+### 8. Sorting
+
+GET
+
+/api/students?sortBy=name&order=ASC
+
+
+### 9. Pagination
+
+GET
+
+/api/students?page=1&limit=10
 
 ## HTTP Status Codes
 
 200 - Success
-201 - Contact created successfully
+201 - Student created successfully
 400 - Invalid request / validation error
-404 - Contact not found
-409 - Duplicate email or phone
+404 - Student not found
 500 - Server error
+
+## Database
+
+Database: codsoft_task1
+
+Tables:
+
+- students
+- courses
+- enrollments
 
 ## Project Structure
 
-contact-management/
+student-record-api/
 │
 ├── config/
 ├── controllers/
@@ -96,14 +156,9 @@ contact-management/
 ├── node_modules/
 ├── .env
 ├── server.js
+├── student_database.sql
 ├── package.json
 └── README.md
-
-## Database
-
-Database: codsoft_contacts
-
-Table: contacts
 
 ## API Testing
 
@@ -111,5 +166,6 @@ All APIs were tested using Postman.
 
 ## CodSoft Internship
 
-Task 2 - Contact Management System
+Task 1 - Student Record Management API
+
 Backend Development Internship
